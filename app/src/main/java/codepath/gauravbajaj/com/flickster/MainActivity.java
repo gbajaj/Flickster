@@ -1,56 +1,66 @@
 package codepath.gauravbajaj.com.flickster;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ListView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import codepath.gauravbajaj.com.flickster.adapters.MovieArrayAdapter;
 import codepath.gauravbajaj.com.flickster.models.Movie;
-import cz.msebera.android.httpclient.Header;
+import codepath.gauravbajaj.com.flickster.network.Request;
+import codepath.gauravbajaj.com.flickster.parser.ResultsParser;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<Movie> movies = new ArrayList<>();
     MovieArrayAdapter movieAdapter;
+    @BindView(R.id.lvMovies)
     ListView lvItems;
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         lvItems = (ListView) findViewById(R.id.lvMovies);
         movieAdapter = new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieAdapter);
 
-        String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.get(url, new JsonHttpResponseHandler() {
+        //Keep Activity as light as possible by moving business logic to helper java classes
+        final Request request = new Request();
+        final ResultsParser resultsParser = new ResultsParser();
+
+        new Thread(new Runnable() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONArray movieJsonResults = null;
+            public void run() {
                 try {
-                    movieJsonResults = response.getJSONArray("results");
-                    movies.addAll(Movie.fromJSONArray(movieJsonResults));
-                    movieAdapter.notifyDataSetChanged();
-                    Log.d("DEBUG", movieJsonResults.toString());
+                    //Fetch Network Response
+                    String responseData = request.nowPlaying();
+                    //Parse and read Network response
+                    movies.clear();
+                    movies.addAll(resultsParser.nowPlaying(responseData));
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (MainActivity.this.isFinishing()) {
+                                return;
+                            }
+                            movieAdapter.notifyDataSetChanged();
+                        }
+                    });
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-            }
-        });
+        }).start();
     }
 }
