@@ -31,10 +31,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubePl
     private static final Flickster flickster = Flickster.instance();
     public static final String MOVIE = MovieDetailsActivity.class.getName() + "." + "MOVIE";
     private static final int RECOVERY_REQUEST = 1;
+    private Movie movie;
+    private YouTubePlayer youTubePlayer;
+    private String videoId;
+
+    //View Members
     @BindView(R.id.ivMovieImageLayout)
     ViewGroup ivMovieImageLayout;
-
-    Movie movie;
     @BindView(R.id.ivMovieImage)
     ImageView lvMovie;
     @BindView(R.id.title)
@@ -49,8 +52,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubePl
     TextView releaseDate;
     @BindView(R.id.synopsisText)
     TextView synopsisText;
-    YouTubePlayer youTubePlayer;
-    String videoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubePl
         ivMovieImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Dummy id
                 playYouTube("WFbKXY8_Y74");
             }
         });

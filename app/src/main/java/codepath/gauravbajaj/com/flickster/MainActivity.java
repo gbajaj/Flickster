@@ -27,13 +27,16 @@ public class MainActivity extends AppCompatActivity implements MovieArrayAdapter
         YouTubePlayer.PlayerStateChangeListener {
 
     private static final int RECOVERY_REQUEST = 1;
-    ArrayList<Movie> movies = new ArrayList<>();
-    MovieArrayAdapter movieAdapter;
+    private ArrayList<Movie> movies = new ArrayList<>();
+    private MovieArrayAdapter movieAdapter;
+    private YouTubePlayer youTubePlayer;
+    private Handler handler = new Handler();
+    private String videoId;
+
+    //View Members
     @BindView(R.id.lvMovies)
     ListView lvItems;
-    YouTubePlayer youTubePlayer;
-    Handler handler = new Handler();
-    String videoId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

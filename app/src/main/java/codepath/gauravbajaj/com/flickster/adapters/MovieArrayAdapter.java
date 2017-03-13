@@ -31,6 +31,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     private static final Flickster flickster = Flickster.instance();
     private float dpWithPortrait = 0;
     private float dpWithBackdrop780 = 0;
+    private PlayYouTube playYouTubeActivity;
 
     enum ViewType {
         POSTER_PORTRAIT, FULL_BACKDROP_PORTRAIT, BACK_DROP_LANDSCAPE;
@@ -39,8 +40,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     public interface PlayYouTube {
         void playYouTube(String id);
     }
-
-    private PlayYouTube playYouTubeActivity;
 
     public static class ViewHolder {
         @BindView(R.id.ivMovieImage)
@@ -122,6 +121,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             viewHolder.lvImageViewPlayIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //Dummy id
                     playYouTubeActivity.playYouTube("WFbKXY8_Y74");
                 }
             });
