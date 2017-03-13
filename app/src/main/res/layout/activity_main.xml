@@ -21,10 +21,8 @@
         android:divider="@null"
         android:dividerHeight="10.0sp"
         android:scrollbars="none" />
-
-    <com.google.android.youtube.player.YouTubePlayerView
-        android:id="@+id/player"
+    <FrameLayout
+        android:id="@+id/youtube_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_height="match_parent"/>
 </RelativeLayout>

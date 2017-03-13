@@ -1,16 +1,15 @@
 package codepath.gauravbajaj.com.flickster;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 import org.json.JSONException;
 
@@ -24,7 +23,7 @@ import codepath.gauravbajaj.com.flickster.models.Movie;
 import codepath.gauravbajaj.com.flickster.network.Request;
 import codepath.gauravbajaj.com.flickster.parser.ResultsParser;
 
-public class MainActivity extends YouTubeBaseActivity implements MovieArrayAdapter.PlayYouTube, YouTubePlayer.OnInitializedListener,
+public class MainActivity extends AppCompatActivity implements MovieArrayAdapter.PlayYouTube, YouTubePlayer.OnInitializedListener,
         YouTubePlayer.PlayerStateChangeListener {
 
     private static final int RECOVERY_REQUEST = 1;
@@ -32,10 +31,9 @@ public class MainActivity extends YouTubeBaseActivity implements MovieArrayAdapt
     MovieArrayAdapter movieAdapter;
     @BindView(R.id.lvMovies)
     ListView lvItems;
-    @BindView(R.id.player)
-    YouTubePlayerView youTubePlayerView;
-
+    YouTubePlayer youTubePlayer;
     Handler handler = new Handler();
+    String videoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +43,6 @@ public class MainActivity extends YouTubeBaseActivity implements MovieArrayAdapt
         lvItems = (ListView) findViewById(R.id.lvMovies);
         movieAdapter = new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieAdapter);
-
         //Keep Activity as light as possible by moving business logic to helper java classes
         final Request request = new Request();
         final ResultsParser resultsParser = new ResultsParser();
@@ -77,16 +74,19 @@ public class MainActivity extends YouTubeBaseActivity implements MovieArrayAdapt
         }).start();
     }
 
-    String thisid;
 
     @Override
     public void playYouTube(String id) {
-        youTubePlayerView.initialize("AIzaSyBv7ZolVdfsO1SIHz5SWNaQv_tr43JiWCc", MainActivity.this);
-        thisid = id;
-        youTubePlayerView.setVisibility(View.VISIBLE);
+        YouTubePlayerSupportFragment youTubePlayerSupportFragment = new YouTubePlayerSupportFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.youtube_fragment, youTubePlayerSupportFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        youTubePlayerSupportFragment.initialize("AIzaSyBv7ZolVdfsO1SIHz5SWNaQv_tr43JiWCc", this);
+        videoId = id;
     }
 
-    YouTubePlayer youTubePlayer;
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
@@ -94,7 +94,7 @@ public class MainActivity extends YouTubeBaseActivity implements MovieArrayAdapt
             this.youTubePlayer = youTubePlayer;
             youTubePlayer.setShowFullscreenButton(false);
             youTubePlayer.setPlayerStateChangeListener(this);
-            youTubePlayer.cueVideo(thisid); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
+            youTubePlayer.cueVideo(videoId); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
         }
     }
 
@@ -106,18 +106,6 @@ public class MainActivity extends YouTubeBaseActivity implements MovieArrayAdapt
             String error = String.format("Play error", youTubeInitializationResult.toString());
             Toast.makeText(this, error, Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RECOVERY_REQUEST) {
-            // Retry initialization if user performed a recovery action
-            getYouTubePlayerProvider().initialize("AIzaSyBv7ZolVdfsO1SIHz5SWNaQv_tr43JiWCc", this);
-        }
-    }
-
-    protected YouTubePlayer.Provider getYouTubePlayerProvider() {
-        return youTubePlayerView;
     }
 
     @Override
@@ -150,21 +138,14 @@ public class MainActivity extends YouTubeBaseActivity implements MovieArrayAdapt
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if (showList()) {
-            return;
-        }
-        super.onBackPressed();
-
-    }
 
     private boolean showList() {
-        if (youTubePlayer != null && youTubePlayer.isPlaying()) {
+        YouTubePlayer player = youTubePlayer;
+        if (player != null) {
             youTubePlayer.setFullscreen(false);
             youTubePlayer.pause();
             youTubePlayer.release();
-            youTubePlayerView.setVisibility(View.GONE);
+            youTubePlayer = null;
             return true;
         }
         return false;
