@@ -55,18 +55,16 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/MovieDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Avg Ratings: "
-            android:textColor="#FFFFFFFF"
-            android:textSize="10dp" />
+            android:text="Avg Ratings: " />
 
         <TextView
             android:id="@+id/avgRating"
+            style="@style/MovieDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFFFF"
-            android:textSize="10dp"
             tools:text="6.6" />
     </LinearLayout>
 
@@ -80,11 +78,10 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/MovieDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Release Date: "
-            android:textColor="#FFFFFFFF"
-            android:textSize="10dp" />
+            android:text="Release Date: " />
 
         <TextView
             android:id="@+id/releaseDate"
@@ -105,18 +102,16 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/MovieDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ratings: "
-            android:textColor="#FFFFFFFF"
             android:textSize="10dp" />
 
         <TextView
             android:id="@+id/votes"
+            style="@style/MovieDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFFFF"
-            android:textSize="10dp"
             tools:text="455" />
     </LinearLayout>
 
@@ -130,18 +125,16 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/MovieDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Synopsis: "
-            android:textColor="#FFFFFFFF"
-            android:textSize="10dp" />
+            android:text="Synopsis: " />
 
         <TextView
             android:id="@+id/synopsisText"
+            style="@style/MovieDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFFFF"
-            android:textSize="10dp"
             tools:text="i am lorum ipsum i am lorum ipsum i am lorum ipsum i am lorum ipsum i am lorum ipsum i am lorum ipsum i am lorum ipsum i am lorum ipsum " />
 
     </LinearLayout>

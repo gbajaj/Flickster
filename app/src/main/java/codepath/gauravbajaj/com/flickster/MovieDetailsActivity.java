@@ -62,7 +62,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         releaseDate.setText(movie.getReleaseDate());
         //Set Movie overview
         synopsisText.setText(movie.getOverview());
-        String imagePath = movie.getBackdropPath();
+        String imagePath = movie.getBackdrop780Path();
         int placeHolder = R.drawable.place_holder_backdrop;
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {

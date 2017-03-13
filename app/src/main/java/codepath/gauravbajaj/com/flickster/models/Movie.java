@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Movie implements Parcelable {
     String posterPath;
-    String backdropPath;
+    String backDropPath;
     String originalTitle;
     String overview;
     Double averageRatings;
@@ -37,8 +37,12 @@ public class Movie implements Parcelable {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }
 
-    public String getBackdropPath() {
-        return String.format("https://image.tmdb.org/t/p/w780%s", backdropPath);
+    public String getBackdrop780Path() {
+        return String.format("https://image.tmdb.org/t/p/w780%s", backDropPath);
+    }
+
+    public String getBackdrop1280() {
+        return String.format("https://image.tmdb.org/t/p/w1280%s", backDropPath);
     }
 
     public String getOriginalTitle() {
@@ -53,7 +57,7 @@ public class Movie implements Parcelable {
         this.posterPath = jsonObject.getString("poster_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
-        this.backdropPath = jsonObject.getString("backdrop_path");
+        this.backDropPath = jsonObject.getString("backdrop_path");
         this.ratingsCount = jsonObject.getInt("vote_count");
         this.averageRatings = jsonObject.getDouble("vote_average");
         this.releaseDate = jsonObject.getString("release_date");
@@ -73,7 +77,7 @@ public class Movie implements Parcelable {
 
     protected Movie(Parcel in) {
         posterPath = in.readString();
-        backdropPath = in.readString();
+        backDropPath = in.readString();
         originalTitle = in.readString();
         overview = in.readString();
         averageRatings = in.readByte() == 0x00 ? null : in.readDouble();
@@ -89,7 +93,7 @@ public class Movie implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(posterPath);
-        dest.writeString(backdropPath);
+        dest.writeString(backDropPath);
         dest.writeString(originalTitle);
         dest.writeString(overview);
         if (averageRatings == null) {

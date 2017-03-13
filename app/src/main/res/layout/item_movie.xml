@@ -2,30 +2,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_centerInParent="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true">
 
-    <ImageView
-        android:id="@+id/ivMovieImage"
+    <RelativeLayout
+        android:id="@+id/ivMovieImageLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
-        android:adjustViewBounds="true"
-        tools:src="@drawable/place_holder_portrait" />
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:id="@+id/ivMovieImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            tools:src="@drawable/place_holder_backdrop" />
+
+        <ImageView
+            android:id="@+id/ivMovieImagePlayIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/social_circle_dark_128px" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tvTitle"
+        style="@style/MovieTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/ivMovieImage"
-        android:layout_toRightOf="@+id/ivMovieImage"
-        android:textColor="#CCFFFFFF"
-        android:textSize="16dp"
+        android:layout_toEndOf="@+id/ivMovieImageLayout"
+        android:layout_toRightOf="@+id/ivMovieImageLayout"
         tools:text="Fifty Shades Darker" />
 
     <TextView
@@ -33,11 +50,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
-        android:layout_toEndOf="@+id/ivMovieImage"
-        android:layout_toRightOf="@+id/ivMovieImage"
+        android:layout_toEndOf="@+id/ivMovieImageLayout"
+        android:layout_toRightOf="@+id/ivMovieImageLayout"
         android:maxLines="5"
+        style="@style/MovieDetails"
         android:text="TextView"
-        android:textColor="#80FFFFFF"
-        android:textSize="12dp"
         tools:text="When a wounded Christian Grey tries to entice a cautious Ana Steele back into his life, she demands a new arrangement before she will give him another chance. As the two begin to build trust and find stability, shadowy figures from Christian’s past start to circle the couple, determined to destroy their hopes for a future together." />
 </RelativeLayout>
