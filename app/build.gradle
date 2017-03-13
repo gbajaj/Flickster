@@ -27,7 +27,6 @@ dependencies {
     //Added Youtube library
     compile files('libs/YouTubeAndroidPlayerApi.jar')
     // Android Async Http for sending async network requests
-    compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:appcompat-v7:25.0.0'
     testCompile 'junit:junit:4.12'
