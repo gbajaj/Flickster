@@ -10,9 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,7 +22,6 @@ import codepath.gauravbajaj.com.flickster.R;
 import codepath.gauravbajaj.com.flickster.models.Movie;
 import codepath.gauravbajaj.com.flickster.utils.DeviceDimensionsHelper;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
-import okhttp3.OkHttpClient;
 
 /**
  * Created by gauravb on 3/6/17.

@@ -30,5 +30,4 @@ public class Flickster extends Application {
     public static Flickster instance() {
         return instance;
     }
-
 }
