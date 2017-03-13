@@ -3,7 +3,6 @@ package codepath.gauravbajaj.com.flickster;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,15 +15,12 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.jakewharton.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import codepath.gauravbajaj.com.flickster.adapters.MovieArrayAdapter;
 import codepath.gauravbajaj.com.flickster.models.Movie;
+import codepath.gauravbajaj.com.flickster.utils.DeviceDimensionsHelper;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
-import okhttp3.OkHttpClient;
 
 /**
  * Created by gauravb on 3/8/17.
@@ -32,6 +28,7 @@ import okhttp3.OkHttpClient;
 
 public class MovieDetailsActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener,
         YouTubePlayer.PlayerStateChangeListener {
+    private static final Flickster flickster = Flickster.instance();
     public static final String MOVIE = MovieDetailsActivity.class.getName() + "." + "MOVIE";
     private static final int RECOVERY_REQUEST = 1;
     @BindView(R.id.ivMovieImageLayout)
@@ -73,6 +70,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubePl
             String ratingStr = "" + movie.getAverageRatings();
             ratingBar.setRating((float) (Float.parseFloat(ratingStr) / 2.0));
         }
+        float dpWithBackdrop780 = DeviceDimensionsHelper.convertDpToPixel(780, this);
 
         avgRating.setText("" + movie.getAverageRatings() / 2);
         releaseDate.setText(movie.getReleaseDate());
@@ -80,15 +78,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubePl
         synopsisText.setText(movie.getOverview());
         String imagePath = movie.getBackdrop780Path();
         int placeHolder = R.drawable.place_holder_backdrop;
+        lvMovie.getLayoutParams().width = (int) dpWithBackdrop780;
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             imagePath = movie.getPosterPath();
+            lvMovie.getLayoutParams().width = (int) DeviceDimensionsHelper.convertDpToPixel(171, this);
             placeHolder = R.drawable.place_holder_portrait;
         }
 
-        OkHttpClient client = new OkHttpClient();
-        Picasso picasso = new Picasso.Builder(getApplicationContext()).downloader(new OkHttp3Downloader(client)).build();
-        picasso.load(imagePath).placeholder(placeHolder).transform(new RoundedCornersTransformation(10, 10)).into(lvMovie);
+        flickster.picasso.load(imagePath).placeholder(placeHolder).transform(new RoundedCornersTransformation(10, 10)).into(lvMovie);
         ivMovieImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

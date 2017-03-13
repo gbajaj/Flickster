@@ -18,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import codepath.gauravbajaj.com.flickster.Flickster;
 import codepath.gauravbajaj.com.flickster.MovieDetailsActivity;
 import codepath.gauravbajaj.com.flickster.R;
 import codepath.gauravbajaj.com.flickster.models.Movie;
@@ -30,6 +31,7 @@ import okhttp3.OkHttpClient;
  */
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie> {
+    private static final Flickster flickster = Flickster.instance();
     private float dpWithPortrait = 0;
     private float dpWithBackdrop780 = 0;
 
@@ -42,7 +44,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     }
 
     private PlayYouTube playYouTubeActivity;
-    Picasso picasso;
 
     public static class ViewHolder {
         @BindView(R.id.ivMovieImage)
@@ -65,9 +66,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         playYouTubeActivity = (PlayYouTube) context;
         dpWithPortrait = DeviceDimensionsHelper.convertDpToPixel(171, getContext());
         dpWithBackdrop780 = DeviceDimensionsHelper.convertDpToPixel(780, getContext());
-        OkHttpClient client = new OkHttpClient();
-        picasso = new Picasso.Builder(getContext()).downloader(new OkHttp3Downloader(client)).build();
-
     }
 
     // Returns the number of types of Views that will be created by getView(int, View, ViewGroup)
@@ -163,7 +161,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         }
         viewHolder.lvImageViewPlayIcon.setVisibility(View.GONE);
 
-        picasso.load(imagePath).placeholder(placeHolder)
+        flickster.picasso.load(imagePath).placeholder(placeHolder)
                 .transform(new RoundedCornersTransformation(5, 5)).into(viewHolder.lvImageView, new Callback() {
             @Override
             public void onSuccess() {
