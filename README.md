@@ -34,7 +34,7 @@ The following **bonus** features are implemented:
 The following **additional** features are implemented:
 
 * [✓]List anything else that you can get done to improve the app functionality!
-* [✓] *More Popular Movies* I am starting the vide on in the same activity instead
+* [✓] *More Popular Movies* I am starting the video on in the same activity instead
 
 ## Video Walkthrough
 
